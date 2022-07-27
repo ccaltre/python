@@ -3,9 +3,8 @@ from sklearn.feature_extraction.text import CountVectorizer #Veces que aparece l
 from sklearn.feature_extraction.text import TfidfTransformer #Tiene en cuenta la frecuencia inversa de aparicion en docs
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, confusion_matrix
-from pprint import pprint
 
-categories = ['alt.atheism', 'sci.med'] #Solo textos de estos campos
+categories = ['alt.atheism', 'sci.med'] #Solo textos de estos ámbitos
 training_data = fetch_20newsgroups(subset='train',
                                      categories=categories,
                                      shuffle=True,
@@ -37,15 +36,25 @@ model = MultinomialNB().fit(tfidf_matrix, training_data.target)
 new = ["The removal of the patient's thorax was more difficult than expected", "The tumour had to be analyzed",
        "I'm not going to church anymore, I don't believe"]
 
+# x_new_count = cv.transform(new)
+# tfidf_new = tfidf_transformer.transform(x_new_count)
+# head = ["\n".join(head.split("\n")[:10]) for head in test_data.data]
+# predicted = model.predict(tfidf_new)
+# predicted_prob = model.predict_proba(tfidf_new)
 x_new_count = cv.transform(test_data.data)
 tfidf_new = tfidf_transformer.transform(x_new_count)
-
 predicted = model.predict(tfidf_new)
+predicted_prob = model.predict_proba(tfidf_new)
 head = ["\n".join(head.split("\n")[:15]) for head in test_data.data]
+
+
 for doc, category in zip(head, predicted):
-    print('%r -----> %s' % (doc, training_data.target_names[category]))
+    print(f'{doc}%r -----> {training_data.target_names[category]}')
 
 print("Accuracy score:", accuracy_score(test_data.target, predicted))
 print("Counfussion Matrix:\n", confusion_matrix(test_data.target, predicted))
+
+for pro1, pro2 in predicted_prob:
+    print("Predicted probabillity: ", pro1)
 
 

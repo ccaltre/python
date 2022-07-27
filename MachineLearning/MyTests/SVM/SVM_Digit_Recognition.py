@@ -15,12 +15,12 @@ images_and_labels = list(zip(digits.images, digits.target)) #Prepare data
 
 # print(images_and_labels[0]) #Pixel intensity, digit
 
-# for index, (image, label) in enumerate(images_and_labels[:6]):
-#     plt.subplot(2, 3, index + 1) #Subplot with 2 rows and 3 columns
-#     plt.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
-#     plt.title("Target: %i" % label)
-#
-# plt.show()
+for index, (image, label) in enumerate(images_and_labels[:6]):
+    plt.subplot(2, 3, index + 1) #Subplot with 2 rows and 3 columns
+    plt.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
+    plt.title("Target: %i" % label)
+
+plt.show()
 
 #Hay que representar la data como una matriz de 64 columnas (una por pixel)
 data = digits.images.reshape((len(digits.images), -1))
