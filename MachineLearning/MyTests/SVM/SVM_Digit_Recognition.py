@@ -24,11 +24,18 @@ plt.show()
 
 #Hay que representar la data como una matriz de 64 columnas (una por pixel)
 data = digits.images.reshape((len(digits.images), -1))
+image_and_data = zip(digits.images, data)
 print(data.shape)
 X_train, X_test, y_train, y_test = train_test_split(data, digits.target, train_size=0.7, random_state=49)
 
 model = svm.SVC(gamma=0.001)
 model.fit(X_train, y_train)
+
+for row in X_train:
+    image_row = row.reshape(8, 8)
+    plt.imshow(image_row, cmap=plt.cm.gray_r, interpolation='nearest')
+    prediction = model.predict(row.reshape(1, -1))
+    plt.title("Predicted: %i" % prediction)
 
 print("Accuracy score: ", accuracy_score(y_test, model.predict(X_test)))
 print(f"Confussion matrix: \n{metrics.confusion_matrix(y_test,model.predict(X_test))}")

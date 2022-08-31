@@ -33,28 +33,30 @@ tfidf_matrix = tfidf_transformer.fit_transform(x_count_vector)
 
 model = MultinomialNB().fit(tfidf_matrix, training_data.target)
 
-new = ["The removal of the patient's thorax was more difficult than expected", "The tumour had to be analyzed",
-       "I'm not going to church anymore, I don't believe"]
+new = ["I feel pain in my thorax, I should go to the Doctor", "The tumour had to be analyzed",
+       "Religion is the opiate of the masses"]
 
-# x_new_count = cv.transform(new)
-# tfidf_new = tfidf_transformer.transform(x_new_count)
-# head = ["\n".join(head.split("\n")[:10]) for head in test_data.data]
-# predicted = model.predict(tfidf_new)
-# predicted_prob = model.predict_proba(tfidf_new)
-x_new_count = cv.transform(test_data.data)
+x_new_count = cv.transform(new)
 tfidf_new = tfidf_transformer.transform(x_new_count)
+# head = ["\n".join(head.split("\n")[:10]) for head in test_data.data]
+head = new
 predicted = model.predict(tfidf_new)
 predicted_prob = model.predict_proba(tfidf_new)
-head = ["\n".join(head.split("\n")[:15]) for head in test_data.data]
+# x_new_count = cv.transform(test_data.data)
+# tfidf_new = tfidf_transformer.transform(x_new_count)
+# predicted = model.predict(tfidf_new)
+# predicted_prob = model.predict_proba(tfidf_new)
+# head = ["\n".join(head.split("\n")[:15]) for head in test_data.data]
 
 
 for doc, category in zip(head, predicted):
-    print(f'{doc}%r -----> {training_data.target_names[category]}')
-
-print("Accuracy score:", accuracy_score(test_data.target, predicted))
-print("Counfussion Matrix:\n", confusion_matrix(test_data.target, predicted))
+    print(f'{doc} -----> {training_data.target_names[category]}')
+#
+# print("Accuracy score:", accuracy_score(test_data.target, predicted))
+# print("Counfussion Matrix:\n", confusion_matrix(test_data.target, predicted))
 
 for pro1, pro2 in predicted_prob:
-    print("Predicted probabillity: ", pro1)
+    print("Predicted probabillity atheism: ", pro1)
+    print("Predicted probabillity med: ", pro2)
 
 
